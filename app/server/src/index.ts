@@ -1,5 +1,6 @@
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
+import timers from "node:timers/promises";
 
 const app = new Hono();
 
@@ -9,6 +10,10 @@ app
   })
   .get("/badRequest", (c) => {
     return c.json("badRequest", 400);
+  })
+  .get("/sleep", async (c) => {
+    await timers.setTimeout(10000);
+    return c.json("timeout");
   });
 
 const port = 3000;
